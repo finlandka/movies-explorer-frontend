@@ -1,0 +1,31 @@
+.header {
+  background-color: #fafafa;
+  height: 74px;
+  padding: 0 70px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+}
+
+@media screen and (max-width: 1279px) {
+  .header {
+    padding: 0 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .header {
+    padding: 0 14px;
+  }
+}
+
+.header_dark {
+  background-color: #dddee3;
+}
+
+.header__logo {
+  background-image: url('../../images/logo.svg');
+  width: 38px;
+  height: 38px;
+}

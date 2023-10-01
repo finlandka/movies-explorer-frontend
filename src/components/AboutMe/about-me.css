@@ -1,0 +1,159 @@
+.about-me {
+  background-color: #fff;
+}
+
+@media screen and (max-width: 767px) {
+  .about-me {
+    padding: 70px 14px;
+  }
+}
+
+.about-me__card {
+  padding: 66px 0 100px 0;
+  display: grid;
+  grid-template: auto auto / 600px 270px;
+  grid-template-areas:
+    "info photo"
+    "link photo";
+  justify-content: space-between;
+  gap: 100px 30px;
+}
+
+@media screen and (max-width: 1000px) {
+  .about-me__card {
+    grid-template: auto auto / auto 255px;
+    grid-template-areas:
+        "info photo"
+        "link photo";
+    row-gap: 87px;
+  }
+}
+
+@media screen and (max-width: 800px) {
+  .about-me__card {
+    grid-template: auto auto / 364px 255px;
+    grid-template-areas:
+        "info photo"
+        "link photo";
+    row-gap: 87px;
+    padding: 66px 0 90px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__card {
+    display: grid;
+    grid-template: repeat(3, auto) / 1fr;
+    grid-template-areas:
+        "photo"
+        "info"
+        "link";
+    row-gap: 40px;
+    padding: 66px 0 70px 0;
+  }
+}
+
+.about-me__info {
+  grid-area: info;
+}
+
+.about-me__title {
+  margin: 0;
+  padding: 0;
+  font-size: 50px;
+  line-height: 58px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-me__title {
+    font-size: 40px;
+    line-height: 40px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__title {
+    font-size: 30px;
+    line-height: 36.31px;
+  }
+}
+
+.about-me__profession {
+  margin: 0;
+  padding: 18px 0 26px 0;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-me__profession {
+    font-size: 12px;
+    line-height: 18px;
+    padding: 16px 0 20px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__profession {
+    font-size: 11px;
+    line-height: 16px;
+    padding: 20px 0;
+  }
+}
+
+.about-me__description {
+  margin: 0;
+  padding: 0;
+  font-size: 14px;
+  line-height: 22px;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-me__description {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__description {
+    font-size: 11px;
+    line-height: 16px;
+  }
+}
+
+.about-me__link {
+  font-size: 14px;
+  line-height: 16.94px;
+  font-weight: 400;
+  text-decoration: none;
+  color: #000;
+  transition: opacity .3s ease-in-out;
+  grid-area: link;
+}
+
+.about-me__link:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.about-me__photo {
+  width: 100%;
+  height: 100%;
+  background-image: url(../../images/about-me_photo.png);
+  justify-self: right;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 10px;
+  grid-area: photo;
+}
+
+@media screen and (max-width: 767px) {
+  .about-me__photo {
+    height: 352px;
+  }
+}
