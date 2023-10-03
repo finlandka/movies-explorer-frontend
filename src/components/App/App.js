@@ -18,7 +18,9 @@ import dataSave from "../../data-save";
 
 function App() {
   const location = useLocation();
-  const myRoutes = ['/', '/movies', '/saved-movies', '/profile'];
+  const myRoutesHeader = ['/', '/movies', '/saved-movies', '/profile'];
+  const myRoutesFooter = ['/', '/movies', '/saved-movies'];
+  const [loggedIn, setLoggedIn] = React.useState(false);
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
   const [displayedMovies, setDisplayedMovies] = useState([]);
   const [displayedSaveMovies, setDisplayedSaveMovies] = useState([]);
@@ -61,7 +63,7 @@ function App() {
     setDisplayedSaveMovies(dataSave.slice(0, displayedSaveMovies.length + 4 * cardsPerRow));
   }
 
-  function isMyRoutes() {
+  function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
   }
 
@@ -77,14 +79,15 @@ function App() {
 
     <div className="page">
 
-      {isMyRoutes() && (
+      {isMyRoutes(myRoutesHeader) && (
         <Header
           isOpen={isOpenMenu}
           onOpenMenu={handleOpenMenu}
           onCloseMenu={handleCloseMenu}
+          loggedIn={loggedIn}
         />
       )}
-
+      <main>
       <Routes>
         <Route path="/" element={<Main/>}/>
         <Route path="/signin" element={<Login/>}/>
@@ -104,8 +107,9 @@ function App() {
         <Route path="/profile" element={<Profile/>}/>
         <Route path="*" element={<NotFoundPage/>}/>
       </Routes>
+      </main>
 
-      {isMyRoutes() && <Footer/>}
+      {isMyRoutes(myRoutesFooter) && <Footer/>}
 
     </div>
 

@@ -1,34 +1,46 @@
 import './navigation.css';
-import {Link} from "react-router-dom";
+import {Link, useLocation} from "react-router-dom";
 import React from "react";
 
-function Navigation({ isOpen, onOpenMenu, onCloseMenu }) {
+function Navigation({ isOpen, onOpenMenu, onCloseMenu, loggedIn }) {
+  const location = useLocation();
 
   return (
     <>
-      <div className="navigation__burger" onClick={onOpenMenu}></div>
-      <div className={`navigation__cover ${isOpen ? 'navigation__cover_active' : ''}`}></div>
-      <div className={`navigation__hidden ${isOpen ? 'navigation__hidden_active' : ''}`}>
-        <div className="navigation__close" onClick={onCloseMenu}></div>
-        <nav className="navigation__menu-burger">
-          <Link to="/" className="navigation__link-burger" onClick={onCloseMenu}>Главная</Link>
-          <Link to="/movies" className="navigation__link-burger navigation__link-burger_active"
-                onClick={onCloseMenu}>Фильмы</Link>
-          <Link to="/saved-movies" className="navigation__link-burger" onClick={onCloseMenu}>Сохранённые фильмы</Link>
-        </nav>
-        <Link to="/profile" className="navigation__link-profile">Аккаунт</Link>
-      </div>
-      <div className="navigation__section-menu">
-        <nav className="navigation__menu">
-          <Link to="/movies" className="navigation__link">Фильмы</Link>
-          <Link to="/saved-movies" className="navigation__link">Сохранённые фильмы</Link>
-        </nav>
-        <Link to="/profile" className="navigation__link-profile">Аккаунт</Link>
-      </div>
-      <nav className="navigation__menu-login" style={{ display: "none" }}>
-        <Link to="/signup" className="navigation__link-login">Регистрация</Link>
-        <Link to="/signin" className="navigation__link-login navigation__link-login_active">Войти</Link>
+      {loggedIn ? (
+        <>
+          <div className="header__section-menu">
+            <nav className="header__menu">
+              <Link to="/movies" className="header__link">Фильмы</Link>
+              <Link to="/saved-movies" className="header__link">Сохранённые фильмы</Link>
+            </nav>
+            <Link to="/profile" className="header__link-profile">Аккаунт</Link>
+          </div>
+
+          <button className="header__burger" onClick={onOpenMenu} type="button"></button>
+          <div className={`header__cover ${isOpen ? 'header__cover_active' : ''}`}></div>
+          <div className={`header__hidden ${isOpen ? 'header__hidden_active' : ''}`}>
+          <button className="header__close" onClick={onCloseMenu} type="button"></button>
+          <nav className="header__menu-burger">
+            <Link to="/" className={`header__link-burger ${location.pathname === '/' ? 'header__link-burger_active' : ''}`}
+            onClick={onCloseMenu}>Главная</Link>
+            <Link to="/movies"
+            className={`header__link-burger ${location.pathname === '/movies' ? 'header__link-burger_active' : ''}`}
+            onClick={onCloseMenu}>Фильмы</Link>
+            <Link to="/saved-movies"
+            className={`header__link-burger ${location.pathname === '/saved-movies' ? 'header__link-burger_active' : ''}`}
+            onClick={onCloseMenu}>Сохранённые фильмы</Link>
+          </nav>
+          <Link to="/profile" className="header__link-profile">Аккаунт</Link>
+          </div>
+        </>
+
+        ) : (
+      <nav className="header__menu-login">
+        <Link to="/signup" className="header__link-login">Регистрация</Link>
+        <Link to="/signin" className="header__link-login header__link-login_active">Войти</Link>
       </nav>
+        )}
     </>
   );
 }

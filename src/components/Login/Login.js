@@ -4,8 +4,8 @@ import {Link} from "react-router-dom";
 function Login() {
   return (
     <div className="login">
-      <Link className="header__logo" to="/" title="Учебный проект"></Link>
-      <h2 className="login__title">Рады видеть!</h2>
+      <Link className="login__logo" to="/" title="Учебный проект"></Link>
+      <h1 className="login__title">Рады видеть!</h1>
       <form className="login__form">
         <label className="login__label" htmlFor="loginEmail">E-mail</label>
         <input
@@ -24,6 +24,8 @@ function Login() {
           name="password"
           placeholder="Пароль"
           required
+          minLength="5"
+          maxLength="15"
         />
         <div className="login__error">Что-то пошло не так...</div>
         <button className="login__button" type="submit">

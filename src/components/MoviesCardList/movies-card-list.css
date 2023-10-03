@@ -1,13 +1,14 @@
 .movies-card-list {
-  padding: 70px 0 30px 0;
+  padding: 80px 0 30px 0;
   list-style-type: none;
   margin: 0;
   display: grid;
   grid-template: 218px / repeat(4, 270px);
   grid-auto-rows: 218px;
-  gap: 30px 20px;
+  gap: 32px 20px;
   overflow: hidden;
   justify-content: center;
+  border-top: 1px solid #e8e8e8;
 }
 
 @media screen and (max-width: 1279px) {

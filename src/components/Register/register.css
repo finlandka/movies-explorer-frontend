@@ -20,8 +20,25 @@
   }
 }
 
+.register__logo {
+  background-image: url('../../images/logo.svg');
+  width: 38px;
+  height: 38px;
+  transition: opacity .3s ease-in-out;
+}
+
+@media screen and (max-width: 767px) {
+  .register__logo {
+    align-self: center;
+  }
+}
+
+.register__logo:hover {
+  opacity: .6;
+}
+
 .register__title {
-  padding: 40px 0;
+  padding: 40px 0 35px 0;
   margin: 0;
   font-size: 24px;
   line-height: 29.05px;
@@ -30,12 +47,9 @@
 
 @media screen and (max-width: 767px) {
   .register__title {
-    padding: 50px 0 80px 0;
+    padding: 50px 0 75px 0;
+    text-align: center;
   }
-}
-
-.register__form {
-
 }
 
 .register__label {
@@ -43,7 +57,7 @@
   line-height: 12.1px;
   font-weight: 400;
   color: #a0a0a0;
-  padding: 0 0 7px 0;
+  padding: 0 0 5px 0;
 }
 
 .register__input {
@@ -55,7 +69,7 @@
   font-size: 14px;
   line-height: 16.94px;
   font-weight: 400;
-  padding: 0 0 10px 0;
+  padding: 0 0 9px 0;
   box-sizing: border-box;
   margin: 0 0 24px 0;
   outline: none;
@@ -63,6 +77,10 @@
 
 .register__input:focus {
   border-bottom: 1px solid #3456F3;
+}
+
+.register__input:invalid {
+  color: #ee3465;
 }
 
 .register__input:last-of-type {
@@ -74,6 +92,7 @@
   line-height: 12.1px;
   font-weight: 400;
   color: #ee3465;
+  padding: 6px 0 0 0;
 }
 
 .register__button {
@@ -91,19 +110,16 @@
   transition: opacity .3s ease-in-out;
 }
 
-.register__button:hover {
-  opacity: .6;
-}
-
 @media screen and (max-width: 767px) {
   .register__button {
-    margin: 240px 0 0 0;
+    margin: 222px 0 0 0;
     font-size: 12px;
     line-height: 14.52px;
   }
 }
 
 .register__button:hover {
+  opacity: .6;
   cursor: pointer;
 }
 
@@ -130,6 +146,11 @@
   font-size: 14px;
   line-height: 16.94px;
   font-weight: 400;
+  transition: opacity .3s ease-in-out;
+}
+
+.register__link:hover {
+  opacity: .6;
 }
 
 @media screen and (max-width: 767px) {

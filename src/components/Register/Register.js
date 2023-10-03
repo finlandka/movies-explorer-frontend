@@ -4,8 +4,8 @@ import {Link} from "react-router-dom";
 function Register() {
   return (
     <div className="register">
-      <Link className="header__logo" to="/" title="Учебный проект"></Link>
-      <h2 className="register__title">Добро пожаловать!</h2>
+      <Link className="register__logo" to="/" title="Учебный проект"></Link>
+      <h1 className="register__title">Добро пожаловать!</h1>
       <form className="register__form">
         <label className="register__label" htmlFor="registerName">Имя</label>
         <input
@@ -15,6 +15,8 @@ function Register() {
           name="name"
           placeholder="Имя"
           required
+          minLength="2"
+          maxLength="30"
         />
         <label className="register__label" htmlFor="registerEmail">E-mail</label>
         <input
@@ -33,6 +35,8 @@ function Register() {
           name="password"
           placeholder="Пароль"
           required
+          minLength="5"
+          maxLength="15"
         />
         <div className="register__error">Что-то пошло не так...</div>
         <button className="register__button" type="submit">

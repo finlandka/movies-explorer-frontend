@@ -17,3 +17,10 @@
     padding: 0 10px 0 10px;
   }
 }
+
+.saved-movies__another {
+  padding: 50px 0 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

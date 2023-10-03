@@ -1,5 +1,6 @@
 .about-me {
   background-color: #fff;
+  padding-bottom: 115px;
 }
 
 @media screen and (max-width: 767px) {
@@ -63,6 +64,7 @@
   font-size: 50px;
   line-height: 58px;
   font-weight: 400;
+  letter-spacing: -0.04em;
 }
 
 @media screen and (max-width: 1279px) {
@@ -143,13 +145,11 @@
 .about-me__photo {
   width: 100%;
   height: 100%;
-  background-image: url(../../images/about-me_photo.png);
   justify-self: right;
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
   border-radius: 10px;
   grid-area: photo;
+  object-fit: cover;
+  object-position: center;
 }
 
 @media screen and (max-width: 767px) {

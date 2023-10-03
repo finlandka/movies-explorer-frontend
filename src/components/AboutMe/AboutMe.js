@@ -1,6 +1,7 @@
 import React from "react";
 import './about-me.css';
-import Portfolio from "../Portfolio/Portfolio";
+import Portfolio from '../Portfolio/Portfolio';
+import photo from '../../images/about-me_photo.png';
 
 const AboutMe = React.forwardRef((props, ref) => {
   return (
@@ -15,7 +16,7 @@ const AboutMe = React.forwardRef((props, ref) => {
             и две дочери. Я люблю слушать музыку. Кодить начала еще в университете. С 2013 года работала в СПбГУ
             программистом. После того, как прошла курс по веб-разработке, ищу новую работу.</p>
         </article>
-        <div className="about-me__photo"></div>
+        <img className="about-me__photo" src={photo} alt="Елена"></img>
         <a href="https://github.com/finlandka" target="_blank" rel="noopener noreferrer" title="github"
            className="about-me__link">Github</a>
       </div>

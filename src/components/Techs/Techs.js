@@ -5,7 +5,7 @@ const Techs = React.forwardRef((props, ref) => {
   return (
     <section ref={ref} className="techs content-block">
       <h2 className="content-block__title">Технологии</h2>
-      <div className="techs__block">
+      <article className="techs__block">
         <h3 className="techs__title">7 технологий</h3>
         <p className="content-block__text techs__text">На курсе веб-разработки мы освоили технологии, которые применили
           в дипломном проекте.</p>
@@ -18,7 +18,7 @@ const Techs = React.forwardRef((props, ref) => {
           <li className="techs__tech">Express.js</li>
           <li className="techs__tech">mongoDB</li>
         </ul>
-      </div>
+      </article>
     </section>
   );
 });

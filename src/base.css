@@ -1,3 +1,7 @@
+main {
+  flex-grow: 1;
+}
+
 .content-block {
   padding: 110px 70px;
 }
@@ -20,6 +24,7 @@
   font-size: 22px;
   line-height: 26.63px;
   font-weight: 400;
+  letter-spacing: -0.04em;
   border-bottom: 1px #000 solid;
   width: 100%;
   box-sizing: border-box;

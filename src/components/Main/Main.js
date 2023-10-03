@@ -15,7 +15,7 @@ function Main() {
   }
 
   return (
-    <main>
+    <>
       <Promo/>
       <NavTab
         aboutProjectRef={aboutProjectRef}
@@ -26,7 +26,7 @@ function Main() {
       <AboutProject ref={aboutProjectRef}/>
       <Techs ref={techsRef}/>
       <AboutMe ref={aboutMeRef}/>
-    </main>
+    </>
   );
 }
 

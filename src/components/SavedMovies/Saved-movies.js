@@ -9,8 +9,8 @@ function SavedMovies({ films, isShowMore, dataShowMore }) {
     <section className="saved-movies">
       <SearchForm/>
       <MoviesCardList films={films}/>
-      <div className="movies__another">
-        {isShowMore ? <button className="movies__button" onClick={dataShowMore}>Еще</button> : ''}
+      <div className="saved-movies__another">
+        {isShowMore ? <button className="movies__button" onClick={dataShowMore} type="button">Еще</button> : ''}
       </div>
     </section>
   );

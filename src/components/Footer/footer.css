@@ -3,6 +3,8 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  flex-shrink: 0;
+  background-color: #f8f8f8;
 }
 
 @media screen and (max-width: 1279px) {
@@ -54,6 +56,9 @@
   display: flex;
   justify-content: space-between;
   gap: 0 20px;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
 }
 
 @media screen and (max-width: 767px) {

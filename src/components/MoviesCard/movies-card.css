@@ -45,6 +45,12 @@
   background-position: center;
   width: 16px;
   height: 16px;
+  border: none;
+  background-color: #fff;
+}
+
+.movies-card__delete:hover {
+  cursor: pointer;
 }
 
 .movies-card__check-back {
@@ -53,9 +59,17 @@
   border-radius: 50px;
   background-color: #fff;
   box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.09);
+  border: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.movies-card__check-back:hover {
+  opacity: .6;
 }
 
 .movies-card__check {

@@ -3,7 +3,7 @@ import React from "react";
 import Navigation from "../Navigation/Navigation";
 import {Link, useLocation} from "react-router-dom";
 
-function Header({ isOpen, onOpenMenu, onCloseMenu }) {
+function Header({ isOpen, onOpenMenu, onCloseMenu, loggedIn }) {
   const location = useLocation();
 
   return (
@@ -13,6 +13,7 @@ function Header({ isOpen, onOpenMenu, onCloseMenu }) {
         isOpen={isOpen}
         onOpenMenu={onOpenMenu}
         onCloseMenu={onCloseMenu}
+        loggedIn={loggedIn}
       />
     </header>
   );

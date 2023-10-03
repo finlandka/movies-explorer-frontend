@@ -28,4 +28,9 @@
   background-image: url('../../images/logo.svg');
   width: 38px;
   height: 38px;
+  transition: opacity .3s ease-in-out;
+}
+
+.header__logo:hover {
+  opacity: .6;
 }

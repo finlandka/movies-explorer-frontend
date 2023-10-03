@@ -1,9 +1,13 @@
-.navigation__burger {
+.header__burger {
   display: none;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  padding: 0;
+  transition: opacity .3s ease-in-out;
 }
 
 @media screen and (max-width: 768px) {
-  .navigation__burger {
+  .header__burger {
     display: block;
     background-image: url('../../images/burger.svg');
     background-repeat: no-repeat;
@@ -12,8 +16,13 @@
   }
 }
 
-.navigation__cover {
-  position: absolute;
+.header__burger:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.header__cover {
+  position: fixed;
   top: 0;
   left: 0;
   z-index: 1;
@@ -23,11 +32,11 @@
   display: none;
 }
 
-.navigation__cover_active {
+.header__cover_active {
   display: block;
 }
 
-.navigation__hidden {
+.header__hidden {
   opacity: 0;
   transform: translateX(-2000px);
   transition: opacity 0.5s, transform 0.5s;
@@ -37,7 +46,7 @@
   width: 520px;
   background-color: #fff;
   height: 100vh;
-  position: absolute;
+  position: fixed;
   top: 0;
   right: 0;
   row-gap: 105px;
@@ -46,25 +55,41 @@
 }
 
 @media screen and (max-width: 719px) {
-  .navigation__hidden {
+  .header__hidden {
     width: 100%;
+    row-gap: 99.44px;
   }
 }
 
-.navigation__hidden_active {
+.header__hidden_active {
   opacity: 1;
   transform: translateX(0);
 }
 
-.navigation__close {
+.header__close {
   background-image: url('../../images/close.svg');
   width: 32px;
   height: 32px;
-  margin: 20px 20px 0 0;
+  margin: 22.44px 24.44px 0 0;
   align-self: end;
+  border: none;
+  background-color: #fff;
+  padding: 0;
+  transition: opacity .3s ease-in-out;
 }
 
-.navigation__menu-burger {
+@media screen and (max-width: 767px) {
+  .header__close {
+    margin: 13.44px 13.44px 0 0;
+  }
+}
+
+.header__close:hover {
+  opacity: .6;
+  cursor: pointer;
+}
+
+.header__menu-burger {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -73,19 +98,30 @@
   flex-grow: 2;
 }
 
-.navigation__link-burger {
+@media screen and (max-width: 767px) {
+  .header__menu-burger {
+    row-gap: 24px;
+  }
+}
+
+.header__link-burger {
   font-size: 18px;
   line-height: 21.78px;
   font-weight: 500;
   text-decoration: none;
   color: #000;
+  transition: opacity .3s ease-in-out;
 }
 
-.navigation__link-burger_active {
+.header__link-burger:hover {
+  opacity: .6;
+}
+
+.header__link-burger_active {
   border-bottom: 2px solid #000;
 }
 
-.navigation__section-menu {
+.header__section-menu {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -94,19 +130,19 @@
 }
 
 @media screen and (max-width: 768px) {
-  .navigation__section-menu {
+  .header__section-menu {
     display: none;
   }
 }
 
-.navigation__menu {
+.header__menu {
   flex-grow: 2;
   padding: 0 0 0 25px;
 }
 
-.navigation__link {
+.header__link {
   color: #000000;
-  padding: 0 20px;
+  padding: 0 0 0 16px;
   margin: 0;
   font-size: 13px;
   line-height: 18px;
@@ -115,11 +151,11 @@
   transition: opacity .3s ease-in-out;
 }
 
-.navigation__link:hover {
+.header__link:hover {
   opacity: .6;
 }
 
-.navigation__link-login {
+.header__link-login {
   color: #000000;
   padding: 8px 20px;
   margin: 0;
@@ -130,17 +166,34 @@
   transition: opacity .3s ease-in-out;
 }
 
-.navigation__link-login:hover {
+@media screen and (max-width: 767px) {
+  .header__link-login {
+    font-size: 10px;
+    padding: 5px 12px;
+  }
+}
+
+.header__link-login:hover {
   opacity: .6;
 }
 
-.navigation__link-login_active {
+.header__link-login:last-of-type {
+  margin: 0 0 0 10px;
+}
+
+@media screen and (max-width: 767px) {
+  .header__link-login:last-of-type {
+    margin: 0 0 0 2px;
+  }
+}
+
+.header__link-login_active {
   color: #ffffff;
   background-color: #3456f3;
   border-radius: 3px;
 }
 
-.navigation__link-profile {
+.header__link-profile {
   text-decoration: none;
   color: #000;
   font-size: 14px;
@@ -157,11 +210,17 @@
 }
 
 @media screen and (max-width: 768px) {
-  .navigation__link-profile {
+  .header__link-profile {
     margin: 0 0 90px 0;
   }
 }
 
-.navigation__link-profile:hover {
+@media screen and (max-width: 767px) {
+  .header__link-profile {
+    margin: 0 0 44px 0;
+  }
+}
+
+.header__link-profile:hover {
   opacity: .6;
 }

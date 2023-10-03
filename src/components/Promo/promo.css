@@ -1,37 +1,32 @@
 .promo {
   background-color: #dddee3;
   background-repeat: no-repeat;
-  background-position: center;
+  background-position: center 82px;
+  background-image: url('../../images/promo-logo.svg');
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 524px;
   width: 100%;
-  position: relative;
+  padding: 82px 0 122px 0;
+  box-sizing: border-box;
 }
 
 @media screen and (max-width: 1279px) {
   .promo {
     height: 784px;
+    background-position: center 224px;
+    padding: 224px 0 240px 0;
   }
 }
 
 @media screen and (max-width: 767px) {
   .promo {
     height: 570px;
-  }
-}
-
-.promo__back {
-  width: 320px;
-  height: 320px;
-}
-
-@media screen and (max-width: 767px) {
-  .promo__back {
-    width: 248px;
-    height: 248px;
+    background-size: 248px;
+    background-position: center 142px;
+    padding: 142px 0 180px 0;
   }
 }
 
@@ -41,17 +36,16 @@
   font-size: 50px;
   line-height: 58px;
   font-weight: 400;
+  letter-spacing: -0.04em;
   width: 730px;
   text-align: center;
-  display: grid;
   place-items: center;
-  position: absolute;
 }
 
 @media screen and (max-width: 767px) {
   .promo__title {
     font-size: 31px;
     line-height: 39px;
-    width: 317px;
+    width: 300px;
   }
 }

@@ -66,16 +66,33 @@
   }
 }
 
-.profile__row {
+.profile__label {
   font-size: 11px;
   line-height: 13.31px;
-  font-weight: 400;
+  font-weight: 500;
   padding: 16px 0;
   margin: 0;
 }
 
-.profile__row_title {
-  font-weight: 500;
+.profile__input {
+  outline: none;
+  border: none;
+  text-align: right;
+  font-size: 11px;
+  line-height: 13.31px;
+  font-weight: 400;
+}
+
+.profile__input:focus {
+  border-bottom: 1px solid #3456F3;
+}
+
+.profile__input:invalid {
+  color: #ee3465;
+}
+
+.profile__input::placeholder {
+  color: #000;
 }
 
 .profile__menu {
