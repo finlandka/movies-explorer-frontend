@@ -1,0 +1,95 @@
+.movies-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  background-color: #fff;
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  transition: box-shadow .3s ease-in-out;
+}
+
+.movies-card:hover {
+  cursor: pointer;
+  box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.25);
+}
+
+.movies-card__pic {
+  width: 100%;
+  height: 100%;
+}
+
+.movies-card__desc {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 14px 12px;
+  box-sizing: border-box;
+}
+
+.movies-card__title-desc {
+  display: flex;
+  justify-content: space-between;
+}
+
+.movies-card__title {
+  margin: 0;
+  padding: 0;
+  font-size: 13px;
+  line-height: 15.73px;
+  font-weight: 500;
+}
+
+.movies-card__delete {
+  background-image: url('../../images/check-short.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 16px;
+  height: 16px;
+  border: none;
+  background-color: #fff;
+}
+
+.movies-card__delete:hover {
+  cursor: pointer;
+}
+
+.movies-card__check-back {
+  width: 13px;
+  height: 13px;
+  border-radius: 50px;
+  background-color: #fff;
+  box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.09);
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 0;
+  transition: opacity .3s ease-in-out;
+}
+
+.movies-card__check-back:hover {
+  opacity: .6;
+}
+
+.movies-card__check {
+  width: 10px;
+  height: 10px;
+  border-radius: 50px;
+}
+
+.movies-card__check-off {
+  background-color: #f4f4f4;
+}
+
+.movies-card__check-on {
+  background-color: #2be080;
+}
+
+.movies-card__period {
+  font-size: 11px;
+  line-height: 13.31px;
+  font-weight: 400;
+  color: #a0a0a0;
+  padding: 10px 0 0 0;
+}

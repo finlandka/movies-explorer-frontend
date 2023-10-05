@@ -1,0 +1,26 @@
+.saved-movies {
+  background-color: #fafafa;
+  padding: 70px 70px 0 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+@media screen and (max-width: 1279px) {
+  .saved-movies {
+    padding: 70px 30px 0 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .saved-movies {
+    padding: 0 10px 0 10px;
+  }
+}
+
+.saved-movies__another {
+  padding: 50px 0 80px 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

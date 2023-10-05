@@ -1,0 +1,119 @@
+.about-project {
+  background-color: #fff;
+}
+
+.about-project__wrap {
+  display: grid;
+  grid-template: auto / repeat(2, 550px);
+  justify-content: start;
+  justify-items: start;
+  gap: 30px 40px;
+  padding: 70px 0 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-project__wrap {
+    grid-template: auto auto / repeat(2, auto);
+    gap: 20px 30px;
+  }
+}
+
+@media screen and (max-width: 850px) {
+  .about-project__wrap {
+    grid-template: auto auto / repeat(2, 319px);
+    gap: 20px 30px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__wrap {
+    display: flex;
+    flex-direction: column;
+    gap: 56px 0;
+  }
+}
+
+.about-project__subtitle {
+  margin: 0;
+  padding: 0 0 26px 0;
+  font-size: 20px;
+  line-height: 24.2px;
+  letter-spacing: -0.04em;
+  font-weight: 400;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-project__subtitle {
+    padding: 0 0 22px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__subtitle {
+    font-size: 18px;
+    line-height: 21.78px;
+    padding: 0 0 16px 0;
+  }
+}
+
+.about-project__wrap-time {
+  display: grid;
+  grid-template: 36px 32px / 228px auto;
+  text-align: center;
+  width: 100%;
+  padding: 110px 0 0 0;
+  margin: 0;
+}
+
+@media screen and (max-width: 1279px) {
+  .about-project__wrap-time {
+    grid-template: 36px 32px / 140px auto;
+    padding: 93px 0 0 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__wrap-time {
+    grid-template: 35px 31px / 100px auto;
+    padding: 60px 0 0 0;
+  }
+}
+
+.about-project__time {
+  font-size: 14px;
+  line-height: 16.94px;
+  font-weight: 400;
+  background-color: #f2f2f2;
+  padding: 9px 0;
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__time {
+    font-size: 11px;
+    line-height: 13.31px;
+    padding: 11px 0;
+  }
+}
+
+.about-project__time_active {
+  color: #fff;
+  background-color: #3456f3;
+}
+
+.about-project__name {
+  font-size: 14px;
+  line-height: 17px;
+  font-weight: 400;
+  color: #a0a0a0;
+  padding: 14px 0 0 0;
+}
+
+@media screen and (max-width: 767px) {
+  .about-project__name {
+    font-size: 11px;
+    line-height: 13.31px;
+    padding: 10px 0 0 0;
+  }
+}

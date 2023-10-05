@@ -1,0 +1,125 @@
+.search-form {
+  margin: 0 0 69px 0;
+  background-color: #fff;
+  border-radius: 9px;
+  box-shadow: 0 3px 14px 0 rgba(0, 0, 0, 0.08);
+  height: 72px;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 19px;
+  padding: 19px 0 19px 19px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 1279px) {
+  .search-form {
+    padding: 0 19px;
+    width: 708px;
+    margin: 0 0 109px 0;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search-form {
+    width: 300px;
+    margin: 80px 0 109px 0;
+    flex-direction: column;
+    padding: 0 19px;
+    align-items: stretch;
+  }
+}
+
+.search-form__form {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 767px) {
+  .search-form__form {
+    border-right: none;
+    flex-direction: column;
+    row-gap: 45px;
+    align-items: stretch;
+  }
+}
+
+.search-form__left {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-right: 1px solid #cbcbcb;
+}
+
+@media screen and (max-width: 767px) {
+  .search-form__left {
+    border-right: none;
+  }
+}
+
+.search-form__search-icon {
+  background-image: url('../../images/icon-search.svg');
+  background-repeat: no-repeat;
+  width: 22px;
+  height: 22px;
+  padding: 6px;
+  margin: 0 10px 0 0;
+  background-position: center;
+}
+
+@media screen and (max-width: 767px) {
+  .search-form__search-icon {
+    display: none;
+  }
+}
+
+.search-form__input {
+  border: none;
+  font-size: 18px;
+  line-height: 20px;
+  font-weight: 400;
+  color: #a0a0a0;
+  width: 750px;
+  outline: none;
+}
+
+.search-form__input:focus {
+  border-bottom: 1px solid #3456F3;
+}
+
+@media screen and (max-width: 1279px) {
+  .search-form__input {
+    width: 320px;
+  }
+}
+
+@media screen and (max-width: 767px) {
+  .search-form__input {
+    width: 150px;
+  }
+}
+
+.search-form__button {
+  background-image: url('../../images/icon-find.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 80px;
+  height: 34px;
+  border: none;
+  background-color: #fff;
+  margin: 0 19px 0 0;
+  transition: opacity .3s ease-in-out;
+}
+
+@media screen and (max-width: 767px) {
+  .search-form__button {
+    margin: 19px 0;
+  }
+}
+
+.search-form__button:hover {
+  cursor: pointer;
+  opacity: .6;
+}
