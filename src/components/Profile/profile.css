@@ -111,6 +111,7 @@
   font-weight: 400;
   text-decoration: none;
   color: #000;
+  transition: opacity .3s ease-in-out;
 }
 
 @media screen and (max-width: 767px) {
@@ -120,12 +121,17 @@
   }
 }
 
+.profile__edit:hover {
+  opacity: .6;
+}
+
 .profile__logout {
   font-size: 13px;
   line-height: 15.73px;
   font-weight: 500;
   color: #ee3465;
   text-decoration: none;
+  transition: opacity .3s ease-in-out;
 }
 
 @media screen and (max-width: 767px) {
@@ -133,4 +139,8 @@
     font-size: 12px;
     line-height: 14.52px;
   }
+}
+
+.profile__logout:hover {
+  opacity: .6;
 }

@@ -6,9 +6,11 @@ import React from "react";
 function MoviesCardList({ films }) {
 
   return (
-    <ul className="movies-card-list">
-      <MoviesCard films={films}/>
-    </ul>
+    <section>
+      <ul className="movies-card-list">
+        <MoviesCard films={films}/>
+      </ul>
+    </section>
   );
 }
 
