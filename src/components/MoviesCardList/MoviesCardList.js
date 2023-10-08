@@ -1,15 +1,21 @@
 import './movies-card-list.css';
+import Preloader from "../Preloader/Preloader";
 import MoviesCard from "../MoviesCard/MoviesCard";
 import React from "react";
 
 
-function MoviesCardList({ films }) {
-
+function MoviesCardList({ films, isLoading, handleCardLike, likedMovies }) {
+  const filmElement = films && films.map((film) => {
+    return <MoviesCard key={film.id} film={film} handleCardLike={handleCardLike} likedMovies={likedMovies}/>
+  });
   return (
     <section>
-      <ul className="movies-card-list">
-        <MoviesCard films={films}/>
-      </ul>
+      {isLoading && <Preloader />}
+      {films.length === 0 ? 'Ничего не найдено' :
+        <ul className="movies-card-list">
+          {filmElement}
+        </ul>
+      }
     </section>
   );
 }

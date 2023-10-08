@@ -112,6 +112,9 @@
   text-decoration: none;
   color: #000;
   transition: opacity .3s ease-in-out;
+  border: none;
+  background: none;
+  padding: 0;
 }
 
 @media screen and (max-width: 767px) {
@@ -123,6 +126,16 @@
 
 .profile__edit:hover {
   opacity: .6;
+  cursor: pointer;
+}
+
+.profile__edit:disabled {
+  color: #a0a0a0;
+}
+
+.profile__edit:disabled:hover{
+  cursor: auto;
+  opacity: 1;
 }
 
 .profile__logout {

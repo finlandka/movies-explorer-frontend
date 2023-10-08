@@ -71,7 +71,7 @@
   font-weight: 400;
   padding: 0 0 9px 0;
   box-sizing: border-box;
-  margin: 0 0 24px 0;
+  margin: 0 0 6px 0;
   outline: none;
 }
 
@@ -92,11 +92,23 @@
   line-height: 12.1px;
   font-weight: 400;
   color: #ee3465;
-  padding: 6px 0 0 0;
+  padding: 0;
+  margin: 0 0 6px 0;
+  height: 12.1px;
+}
+
+.login__submit-error {
+  margin: 185px 0 6px 0;
+}
+
+@media screen and (max-width: 767px) {
+  .login__submit-error {
+    margin: 273px 0 0 0;
+  }
 }
 
 .login__button {
-  margin: 203px 0 0 0;
+  margin: 0;
   display: block;
   width: 100%;
   background-color: #3456f3;
@@ -112,7 +124,6 @@
 
 @media screen and (max-width: 767px) {
   .login__button {
-    margin: 291px 0 0 0;
     font-size: 12px;
     line-height: 14.52px;
   }
@@ -121,6 +132,15 @@
 .login__button:hover {
   cursor: pointer;
   opacity: .6;
+}
+
+.login__button:disabled {
+  background-color: #a0a0a0;
+}
+
+.login__button:disabled:hover {
+  cursor: auto;
+  opacity: 1;
 }
 
 .login__text {

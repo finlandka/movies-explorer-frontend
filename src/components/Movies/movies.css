@@ -41,6 +41,12 @@
   transition: opacity .3s ease-in-out;
 }
 
+@media screen and (max-width: 767px) {
+  .movies__button {
+    width: 240px;
+  }
+}
+
 .movies__button:hover {
   cursor: pointer;
   opacity: .6;
