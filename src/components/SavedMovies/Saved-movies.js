@@ -1,17 +1,16 @@
 import './saved-movies.css';
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
-import React from "react";
+import React, {useEffect} from "react";
 
-function SavedMovies({ films, isShowMore, dataShowMore }) {
-
+function SavedMovies({ films, isLoading, onFilter, handleCardLike, likedMovies, getSaveMovies }) {
+  useEffect(() => {
+    getSaveMovies();
+  }, [getSaveMovies])
   return (
     <section className="saved-movies">
       <SearchForm/>
-      <MoviesCardList films={films}/>
-      <div className="saved-movies__another">
-        {isShowMore ? <button className="movies__button" onClick={dataShowMore} type="button">Еще</button> : ''}
-      </div>
+      <MoviesCardList films={films} isLoading={isLoading} handleCardLike={handleCardLike} likedMovies={likedMovies}/>
     </section>
   );
 }

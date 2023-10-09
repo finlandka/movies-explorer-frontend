@@ -5,7 +5,6 @@ import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 function SearchForm({onFilter, storedFind, storedCheck}) {
   const [find, setFind] = React.useState('');
   const [isChecked, setIsChecked] = React.useState(false);
-  const storedCheckValue = localStorage.getItem('check') === 'true' ? true : false;
 
   React.useEffect(() => {
     setFind(storedFind || '');
@@ -35,12 +34,12 @@ function SearchForm({onFilter, storedFind, storedCheck}) {
               placeholder="Фильм"
               name="movie"
               required
-              value={storedFind ? storedFind : find}
+              defaultValue={storedFind ? storedFind : find}
               onChange={handleChangeMovie}
             />
             <button className="search-form__button" type="submit"></button>
           </div>
-          <FilterCheckbox onCheck={setIsChecked} storedCheck={storedCheckValue}/>
+          <FilterCheckbox onCheck={setIsChecked} storedCheck={isChecked}/>
         </form>
 
     </section>

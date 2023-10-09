@@ -11,7 +11,7 @@ function MoviesCard({ film, handleCardLike, likedMovies }) {
 
   return (
     <li className="movies-card">
-      <img className="movies-card__pic" src={`https://api.nomoreparties.co/${film.image.url}`} alt={film.nameRU}/>
+      <img className="movies-card__pic" src={`${location.pathname === '/movies' ? `https://api.nomoreparties.co/${film.image.formats.thumbnail.url}` : film.thumbnail}`} alt={film.nameRU}/>
       <div className="movies-card__desc">
         <div className="movies-card__title-desc">
           <h2 className="movies-card__title">{film.nameRU}</h2>
@@ -19,10 +19,10 @@ function MoviesCard({ film, handleCardLike, likedMovies }) {
             location.pathname === '/movies' ?
               <button className="movies-card__check-back" type="button" onClick={handleLikeClick}>
                   <span
-                    className={`movies-card__check ${likedMovies.has(film.id) ? 'movies-card__check-on' : 'movies-card__check-off'}`}></span>
+                    className={`movies-card__check ${likedMovies.has(film.id || film.movieId) ? 'movies-card__check-on' : 'movies-card__check-off'}`}></span>
               </button>
               :
-              <button className="movies-card__delete" type="button"></button>
+              <button className="movies-card__delete" type="button" onClick={handleLikeClick}></button>
           }
         </div>
         <span

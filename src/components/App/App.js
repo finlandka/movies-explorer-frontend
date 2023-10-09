@@ -1,5 +1,5 @@
 import './App.css';
-import React, {useEffect, useState} from "react";
+import React, {useEffect, useState, useCallback} from "react";
 import {Routes, Route, useLocation, useNavigate} from "react-router-dom";
 
 import {moviesApi} from "../../utils/MoviesApi";
@@ -20,90 +20,50 @@ import Footer from '../Footer/Footer';
 import NotFoundPage from '../NotFoundPage/NotFoundPage';
 import SavedMovies from '../SavedMovies/Saved-movies';
 
-import dataSave from "../../data-save";
-
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
   const myRoutesHeader = ['/', '/movies', '/saved-movies', '/profile'];
   const myRoutesFooter = ['/', '/movies', '/saved-movies'];
-  const [currentUser, setCurrentUser] = React.useState({});
-  const [loggedIn, setLoggedIn] = React.useState(false);
+  const [currentUser, setCurrentUser] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
-  const [isOpenMenu, setIsOpenMenu] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [allMovies, setAllMovies] = useState([]);
-  const [displayedMovies, setDisplayedMovies] = useState([]);
   const [displayedSaveMovies, setDisplayedSaveMovies] = useState([]);
-  const [cardsPerRow, setCardsPerRow] = useState(4);
-  const [cardsRow, setCardsRow] = useState(4);
-  const [cardsRowMore, setCardsRowMore] = useState(1);
-  const [showMoreButton, setShowMoreButton] = useState(false);
-  const [showMoreButtonSave, setShowMoreButtonSave] = useState(false);
+  const [likedMovies, setLikedMovies] = useState(new Set());
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
   const [storedMovies, setStoredMovies] = useState([]);
-  const [likedMovies, setLikedMovies] = useState(new Set());
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setCardsPerRow(1);
-        setCardsRow(5);
-        setCardsRowMore(2);
-      } else if (window.innerWidth < 1280) {
-        setCardsPerRow(2);
-      } else {
-        setCardsPerRow(4);
-      }
-    };
-
-    window.addEventListener('resize', handleResize);
-    handleResize();
-
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  useEffect(() => {
-    setDisplayedMovies(allMovies.slice(0, cardsRow * cardsPerRow));
-    const rowMovies = Math.ceil(allMovies.length / cardsPerRow);
-    setShowMoreButton(rowMovies > cardsRow);
-
-    setDisplayedSaveMovies(dataSave.slice(0, cardsRow * cardsPerRow));
-    const rowSaveMovies = Math.ceil(dataSave.length / cardsPerRow);
-    setShowMoreButtonSave(rowSaveMovies > cardsRow);
-  }, [cardsPerRow, cardsRow, allMovies]);
-
-  useEffect(() => {
-    setStoredFind(localStorage.getItem('find'));
-    setStoredCheck(localStorage.getItem('check') === 'true');
-    setStoredMovies(JSON.parse(localStorage.getItem('allMovies')));
-  }, []);
-
-  React.useEffect(() => {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
+      const savedUser = JSON.parse(localStorage.getItem("currentUser"));
       mainApi.getToken(token)
         .then((result) => {
           if (result) {
             setLoggedIn(true);
+            setCurrentUser(savedUser);
           }
         })
         .catch((err) => console.log(err));
     }
   }, []);
 
-  function showMoreFilms() {
-    const newDisplayedMovies = allMovies.slice(0, allMovies.length + cardsRowMore * cardsPerRow);
-    setDisplayedMovies(newDisplayedMovies);
-    const rowMovies = Math.ceil((allMovies.length - newDisplayedMovies.length) / cardsPerRow);
-    setShowMoreButton(rowMovies > 0);
-  }
+  useEffect(() => {
+    const find = localStorage.getItem('find');
+    const check = localStorage.getItem('check');
+    const movies = localStorage.getItem('allMovies');
+    const storedLikedMovies = localStorage.getItem('likedMovies');
 
-  function showMoreSaveFilms() {
-    setDisplayedSaveMovies(dataSave.slice(0, displayedSaveMovies.length + cardsRowMore * cardsPerRow));
-  }
+    if (find) setStoredFind(find);
+    if (check) setStoredCheck(check === 'true');
+    if (movies) setStoredMovies(JSON.parse(movies));
+    if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
+  }, []);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
@@ -144,6 +104,7 @@ function App() {
     mainApi.getUserInfo()
       .then((result) => {
         setCurrentUser(result);
+        localStorage.setItem('currentUser', JSON.stringify(result));
       })
       .catch(console.error);
   }
@@ -152,6 +113,7 @@ function App() {
     mainApi.setUserInfo(data)
       .then((result) => {
         setCurrentUser(result);
+        localStorage.setItem('currentUser', JSON.stringify(result));
       })
       .catch(console.error);
   }
@@ -165,11 +127,15 @@ function App() {
   function handleCardLike(movie) {
     const newLikedMovies = new Set(likedMovies);
 
-    if (likedMovies.has(movie.id)) {
-      mainApi.deleteMovie(movie)
+    if (likedMovies.has(movie.id) || movie.movieId) {
+      mainApi.deleteMovie(movie._id)
         .then(result => {
-          newLikedMovies.delete(movie.id);
+          newLikedMovies.delete(movie.id || movie.movieId);
           setLikedMovies(newLikedMovies);
+          localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
+
+          setDisplayedSaveMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
+          setAllMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
         })
         .catch(console.error)
     } else {
@@ -177,35 +143,36 @@ function App() {
         .then(result => {
           newLikedMovies.add(movie.id);
           setLikedMovies(newLikedMovies);
+          localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
         })
-        .catch(console.error)
+        .catch(error => {
+          console.log(error);
+        })
     }
+  }
+
+  const getSaveMovies = useCallback(() => {
+    mainApi.getMovies()
+      .then(result => {
+        setDisplayedSaveMovies(result);
+      })
+      .catch(console.error)
+  }, [])
+
+  function findSavedMovies(find, check) {
+    filter(displayedSaveMovies, find, check)
   }
 
   function findMovies(find, check) {
     setIsLoading(true);
-
-    if (storedFind === find && storedCheck === check && storedMovies) {
-      setAllMovies(storedMovies);
-      setIsLoading(false);
-    } else {
-
       moviesApi.getMovies()
         .then(result => {
           const filteredMovies = filter(result, find, check);
           setAllMovies(filteredMovies);
           setIsLoading(false);
-
-          localStorage.setItem('find', find);
-          localStorage.setItem('check', String(check));
           localStorage.setItem('allMovies', JSON.stringify(filteredMovies));
-
-          setStoredFind(find);
-          setStoredCheck(check);
-          setStoredMovies(filteredMovies);
         })
         .catch(console.error);
-    }
   }
 
   return (
@@ -228,21 +195,24 @@ function App() {
               <Route path="/signup" element={<Register onRegister={onRegister} registerError={registerError}/>}/>
               <Route path="/movies" element={
                 <Movies
-                  films={displayedMovies}
+                  films={allMovies}
                   isLoading={isLoading}
-                  isShowMore={showMoreButton}
-                  dataShowMore={showMoreFilms}
                   onFilter={findMovies}
-                  storedFind={storedFind}
-                  storedCheck={storedCheck}
                   handleCardLike={handleCardLike}
                   likedMovies={likedMovies}
+                  storedFind={storedFind}
+                  storedCheck={storedCheck}
+                  storedMovies={storedMovies}
+
                 />}/>
               <Route path="/saved-movies" element={
                 <SavedMovies
                   films={displayedSaveMovies}
-                  isShowMore={showMoreButtonSave}
-                  dataShowMore={showMoreSaveFilms}
+                  isLoading={isLoading}
+                  onFilter={findSavedMovies}
+                  handleCardLike={handleCardLike}
+                  likedMovies={likedMovies}
+                  getSaveMovies={getSaveMovies}
                 />}/>
               <Route path="/profile" element={<Profile onLogout={onLogout} updateUser={updateUser}/>}/>
               <Route path="*" element={<NotFoundPage/>}/>

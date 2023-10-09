@@ -6,7 +6,7 @@ import React from "react";
 
 function MoviesCardList({ films, isLoading, handleCardLike, likedMovies }) {
   const filmElement = films && films.map((film) => {
-    return <MoviesCard key={film.id} film={film} handleCardLike={handleCardLike} likedMovies={likedMovies}/>
+    return <MoviesCard key={film.id || film.movieId} film={film} handleCardLike={handleCardLike} likedMovies={likedMovies}/>
   });
   return (
     <section>

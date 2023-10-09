@@ -10,6 +10,13 @@ function Profile({onLogout, updateUser}) {
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
 
+  React.useEffect(() => {
+    if (currentUser) {
+      setName(currentUser.name || '');
+      setEmail(currentUser.email || '');
+    }
+  }, [currentUser]);
+
   const handleChangeName = useCallback(e => {
     setName(e.target.value);
     const isValid = e.target.validity.valid;
@@ -35,7 +42,7 @@ function Profile({onLogout, updateUser}) {
   return (
     <section>
       <form className="profile" onSubmit={handleSubmit}>
-        <h1 className="profile__title">Привет, {currentUser.name}!</h1>
+        <h1 className="profile__title">Привет, {currentUser?.name}!</h1>
         <div className="profile__line">
           <label htmlFor="profileName" className="profile__label">Имя</label>
           <input
@@ -47,7 +54,7 @@ function Profile({onLogout, updateUser}) {
             required
             minLength="2"
             maxLength="30"
-            value={currentUser.name}
+            value={name}
             onChange={handleChangeName}
           ></input>
         </div>
@@ -60,7 +67,7 @@ function Profile({onLogout, updateUser}) {
             placeholder="Email"
             type="email"
             required
-            value={currentUser.email}
+            value={email}
             onChange={handleChangeEmail}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
           ></input>

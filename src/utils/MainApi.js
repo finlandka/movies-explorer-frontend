@@ -79,6 +79,14 @@ class MainApi {
       });
   }
 
+  getMovies() {
+    return this._request("movies", { headers: this._getHeaders() }).then(
+      (resp) => {
+        return resp.data;
+      }
+    );
+  }
+
   addMovie(data) {
     return this._request("movies", {
       method: "POST",
@@ -86,8 +94,8 @@ class MainApi {
       body: JSON.stringify({
         nameRU: data.nameRU,
         nameEN: data.nameEN,
-        image: data.image.url,
-        thumbnail: data.image.thumbnail,
+        image: `https://api.nomoreparties.co${data.image.url}`,
+        thumbnail: `https://api.nomoreparties.co${data.image.formats.thumbnail.url}`,
         trailerLink: data.trailerLink,
         movieId: data.id,
         description: data.description,
