@@ -9,10 +9,10 @@ import {filter} from "../../utils/filter";
 import {CurrentUserContext} from '../../context/CurrentUserContext';
 import {LoggedInContext} from '../../context/LoggedInContext';
 
+import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
-
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
@@ -33,6 +33,7 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [allMovies, setAllMovies] = useState([]);
   const [displayedSaveMovies, setDisplayedSaveMovies] = useState([]);
+  const [saveMovies, setSaveMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState(new Set());
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
@@ -129,18 +130,18 @@ function App() {
 
     if (likedMovies.has(movie.id) || movie.movieId) {
       mainApi.deleteMovie(movie._id)
-        .then(result => {
+        .then(() => {
           newLikedMovies.delete(movie.id || movie.movieId);
           setLikedMovies(newLikedMovies);
           localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
 
-          setDisplayedSaveMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
+          setSaveMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
           setAllMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
         })
         .catch(console.error)
     } else {
       mainApi.addMovie(movie)
-        .then(result => {
+        .then(() => {
           newLikedMovies.add(movie.id);
           setLikedMovies(newLikedMovies);
           localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
@@ -154,25 +155,26 @@ function App() {
   const getSaveMovies = useCallback(() => {
     mainApi.getMovies()
       .then(result => {
+        setSaveMovies(result);
         setDisplayedSaveMovies(result);
       })
       .catch(console.error)
   }, [])
 
   function findSavedMovies(find, check) {
-    filter(displayedSaveMovies, find, check)
+    setDisplayedSaveMovies(filter(saveMovies, find, check));
   }
 
   function findMovies(find, check) {
     setIsLoading(true);
-      moviesApi.getMovies()
-        .then(result => {
-          const filteredMovies = filter(result, find, check);
-          setAllMovies(filteredMovies);
-          setIsLoading(false);
-          localStorage.setItem('allMovies', JSON.stringify(filteredMovies));
-        })
-        .catch(console.error);
+    moviesApi.getMovies()
+      .then(result => {
+        const filteredMovies = filter(result, find, check);
+        setAllMovies(filteredMovies);
+        setIsLoading(false);
+        localStorage.setItem('allMovies', JSON.stringify(filteredMovies));
+      })
+      .catch(console.error);
   }
 
   return (
@@ -193,7 +195,7 @@ function App() {
               <Route path="/" element={<Main/>}/>
               <Route path="/signin" element={<Login onLogin={onLogin} loginError={loginError}/>}/>
               <Route path="/signup" element={<Register onRegister={onRegister} registerError={registerError}/>}/>
-              <Route path="/movies" element={
+              <Route path="/movies" element={<ProtectedRouteElement element={
                 <Movies
                   films={allMovies}
                   isLoading={isLoading}
@@ -204,17 +206,18 @@ function App() {
                   storedCheck={storedCheck}
                   storedMovies={storedMovies}
 
-                />}/>
-              <Route path="/saved-movies" element={
+                />}/>}/>
+              <Route path="/saved-movies" element={<ProtectedRouteElement element={
                 <SavedMovies
-                  films={displayedSaveMovies}
+                  displayedSaveFilms={displayedSaveMovies}
                   isLoading={isLoading}
                   onFilter={findSavedMovies}
                   handleCardLike={handleCardLike}
                   likedMovies={likedMovies}
                   getSaveMovies={getSaveMovies}
-                />}/>
-              <Route path="/profile" element={<Profile onLogout={onLogout} updateUser={updateUser}/>}/>
+                />}/>}/>
+              <Route path="/profile" element={<ProtectedRouteElement
+                element={<Profile onLogout={onLogout} updateUser={updateUser}/>}/>}/>
               <Route path="*" element={<NotFoundPage/>}/>
             </Routes>
           </main>
