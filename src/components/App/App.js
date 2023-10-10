@@ -36,6 +36,7 @@ function App() {
   const [displayedSaveMovies, setDisplayedSaveMovies] = useState([]);
   const [saveMovies, setSaveMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState(new Set());
+  const [likedMoviesIds, setLikedMoviesIds] = useState({ });
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
   const [storedMovies, setStoredMovies] = useState([]);
@@ -67,11 +68,13 @@ function App() {
     const check = localStorage.getItem('check');
     const movies = localStorage.getItem('allMovies');
     const storedLikedMovies = localStorage.getItem('likedMovies');
+    const storedLikedMoviesIds = localStorage.getItem('likedMoviesIds');
 
     if (find) setStoredFind(find);
     if (check) setStoredCheck(check === 'true');
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
+    if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
   }, [history]);
 
   function isMyRoutes(myRoutes) {
@@ -135,6 +138,9 @@ function App() {
 
   const handleCardLike = (movie) => {
     if (likedMovies.has(movie.movieId || movie.id)) {
+      if (!movie._id) {
+        movie._id = likedMoviesIds[movie.id]
+      }
       mainApi
         .deleteMovie(movie._id)
         .then(() => {
@@ -145,6 +151,12 @@ function App() {
             localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMoviesArray));
             return newLikedMovies;
           });
+          setLikedMoviesIds((prevIds) => {
+            const newLikedMoviesIds = prevIds;
+            delete newLikedMoviesIds[movie.movieId || movie.id]
+            localStorage.setItem('likedMoviesIds', JSON.stringify(newLikedMoviesIds));
+            return newLikedMoviesIds
+          })
         })
         .catch(console.error);
     } else {
@@ -158,6 +170,12 @@ function App() {
             localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMoviesArray));
             return newLikedMovies;
           });
+          setLikedMoviesIds((prevIds) => {
+            const newLikedMoviesIds = prevIds;
+            newLikedMoviesIds[movie.movieId || movie.id] = movie._id
+            localStorage.setItem('likedMoviesIds', JSON.stringify(newLikedMoviesIds));
+            return newLikedMoviesIds
+          })
         })
         .catch(console.error);
     }
