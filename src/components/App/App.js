@@ -157,6 +157,7 @@ function App() {
             localStorage.setItem('likedMoviesIds', JSON.stringify(newLikedMoviesIds));
             return newLikedMoviesIds
           })
+          getSaveMovies()
         })
         .catch(console.error);
     } else {
