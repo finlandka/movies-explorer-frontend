@@ -135,25 +135,34 @@ function App() {
 
   const handleCardLike = (movie) => {
     if (likedMovies.has(movie.movieId || movie.id)) {
-      mainApi.deleteMovie(movie._id)
+      mainApi
+        .deleteMovie(movie._id)
         .then(() => {
           setLikedMovies((prevLikedMovies) => {
             const newLikedMovies = new Set(prevLikedMovies);
             newLikedMovies.delete(movie.movieId || movie.id);
+            const updatedLikedMoviesArray = Array.from(newLikedMovies);
+            localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMoviesArray));
             return newLikedMovies;
-          })
-          localStorage.setItem('likedMovies', JSON.stringify(Array.from(likedMovies)));
+          });
         })
-        .catch(console.error)
+        .catch(console.error);
     } else {
-      mainApi.addMovie(movie)
+      mainApi
+        .addMovie(movie)
         .then((movie) => {
-          setLikedMovies((prevLikedMovies) => new Set(prevLikedMovies).add(movie.movieId || movie.id));
-          localStorage.setItem('likedMovies', JSON.stringify(Array.from(likedMovies)));
+          setLikedMovies((prevLikedMovies) => {
+            const newLikedMovies = new Set(prevLikedMovies);
+            newLikedMovies.add(movie.movieId || movie.id);
+            const updatedLikedMoviesArray = Array.from(newLikedMovies);
+            localStorage.setItem('likedMovies', JSON.stringify(updatedLikedMoviesArray));
+            return newLikedMovies;
+          });
         })
-        .catch(console.error)
+        .catch(console.error);
     }
-  }
+  };
+
 
   const getSaveMovies = useCallback(() => {
     mainApi.getMovies()
