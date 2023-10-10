@@ -39,6 +39,7 @@ function App() {
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
   const [storedMovies, setStoredMovies] = useState([]);
+  const history = useNavigate();
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -71,7 +72,7 @@ function App() {
     if (check) setStoredCheck(check === 'true');
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
-  }, []);
+  }, [history]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
