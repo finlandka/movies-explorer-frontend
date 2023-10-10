@@ -27,6 +27,7 @@ function App() {
   const myRoutesFooter = ['/', '/movies', '/saved-movies'];
   const [currentUser, setCurrentUser] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [registerError, setRegisterError] = useState('');
   const [loginError, setLoginError] = useState('');
   const [isOpenMenu, setIsOpenMenu] = useState(false);
@@ -49,8 +50,14 @@ function App() {
             setLoggedIn(true);
             setCurrentUser(savedUser);
           }
+          setLoading(false);
         })
-        .catch((err) => console.log(err));
+        .catch((err) => {
+          console.log(err);
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
     }
   }, []);
 
@@ -179,7 +186,7 @@ function App() {
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <LoggedInContext.Provider value={loggedIn}>
+      <LoggedInContext.Provider value={{loggedIn, loading}}>
         <div className="page">
 
           {isMyRoutes(myRoutesHeader) && (
