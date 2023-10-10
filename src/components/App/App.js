@@ -132,36 +132,32 @@ function App() {
     localStorage.clear();
   }
 
-  function handleCardLike(movie) {
-    const newLikedMovies = new Set(likedMovies);
-
-    if (likedMovies.has(movie.id) || movie.movieId) {
+  const handleCardLike = (movie) => {
+    if (likedMovies.has(movie.movieId || movie.id)) {
       mainApi.deleteMovie(movie._id)
         .then(() => {
-          newLikedMovies.delete(movie.id || movie.movieId);
-          setLikedMovies(newLikedMovies);
-          localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
-
-          setSaveMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
-          setAllMovies(prevMovies => prevMovies.filter(m => m._id !== movie._id));
+          setLikedMovies((prevLikedMovies) => {
+            const newLikedMovies = new Set(prevLikedMovies);
+            newLikedMovies.delete(movie.movieId || movie.id);
+            return newLikedMovies;
+          })
+          localStorage.setItem('likedMovies', JSON.stringify(Array.from(likedMovies)));
         })
         .catch(console.error)
     } else {
       mainApi.addMovie(movie)
-        .then(() => {
-          newLikedMovies.add(movie.id);
-          setLikedMovies(newLikedMovies);
-          localStorage.setItem('likedMovies', JSON.stringify(Array.from(newLikedMovies)));
+        .then((movie) => {
+          setLikedMovies((prevLikedMovies) => new Set(prevLikedMovies).add(movie.movieId || movie.id));
+          localStorage.setItem('likedMovies', JSON.stringify(Array.from(likedMovies)));
         })
-        .catch(error => {
-          console.log(error);
-        })
+        .catch(console.error)
     }
   }
 
   const getSaveMovies = useCallback(() => {
     mainApi.getMovies()
       .then(result => {
+        setLikedMovies(new Set(result.map(movie => movie.movieId)));
         setSaveMovies(result);
         setDisplayedSaveMovies(result);
       })

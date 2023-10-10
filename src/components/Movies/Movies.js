@@ -10,6 +10,7 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
   const [cardsRow, setCardsRow] = useState(4);
   const [cardsRowMore, setCardsRowMore] = useState(1);
   const [showMoreButton, setShowMoreButton] = useState(false);
+  console.log(likedMovies);
 
   useEffect(() => {
     const handleResize = () => {
