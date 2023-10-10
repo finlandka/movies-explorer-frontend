@@ -4,7 +4,6 @@ import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import React, {useEffect} from "react";
 
 function SavedMovies({ displayedSaveFilms, isLoading, onFilter, handleCardLike, likedMovies, getSaveMovies }) {
-  console.log(likedMovies);
   useEffect(() => {
     getSaveMovies();
   }, [getSaveMovies])
