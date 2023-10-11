@@ -44,6 +44,7 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
   useEffect(() => {
     setDisplayedMovies(storedMovies.slice(0, cardsRow * cardsPerRow));
     const rowMovies = Math.ceil(storedMovies.length / cardsPerRow);
+    console.log(storedMovies)
     setShowMoreButton(rowMovies > cardsRow);
   }, [storedMovies, cardsPerRow, cardsRow]);
 

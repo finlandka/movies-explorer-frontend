@@ -89,7 +89,7 @@ function App() {
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
     if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
-  }, [history]);
+  }, [history, allMovies]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
