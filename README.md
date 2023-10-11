@@ -4,5 +4,5 @@
 ## Ссылки на проект
 
 [макет light-3](https://www.figma.com/file/6FMWkB94wE7KTkcCgUXtnC/Дипломный-проект?type=design&node-id=1-2208&mode=design&t=FpVIyanhEgvjXt2s-0)
-
+[пул реквест](https://github.com/finlandka/movies-explorer-frontend/pull/2)
 [Фронтенд на удаленном сервере](https://voloh.nomoredomainsrocks.ru)
