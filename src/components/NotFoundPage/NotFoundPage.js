@@ -1,5 +1,4 @@
 import './not-found-page.css';
-import {Link} from "react-router-dom";
 
 function NotFoundPage() {
   return (
@@ -9,7 +8,7 @@ function NotFoundPage() {
           <h1 className="not-found-page__title">404</h1>
           <p className="not-found-page__desc">Страница не найдена</p>
         </div>
-        <Link to="/" className="not-found-page__link">Назад</Link>
+        <button className="not-found-page__link" onClick={() => window.history.back()}>Назад</button>
       </div>
     </div>
   );

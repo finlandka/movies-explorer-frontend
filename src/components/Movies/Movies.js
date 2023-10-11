@@ -4,7 +4,7 @@ import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
 import React, {useEffect, useState} from "react";
 
-function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, storedFind, storedCheck, storedMovies }) {
+function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, storedFind, storedCheck, storedMovies, error }) {
   const [displayedMovies, setDisplayedMovies] = useState([]);
   const [cardsPerRow, setCardsPerRow] = useState(4);
   const [cardsRow, setCardsRow] = useState(4);
@@ -19,8 +19,12 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
         setCardsRowMore(2);
       } else if (window.innerWidth < 1280) {
         setCardsPerRow(2);
+        setCardsRow(4);
+        setCardsRowMore(1);
       } else {
         setCardsPerRow(4);
+        setCardsRow(4);
+        setCardsRowMore(1);
       }
     };
 
@@ -55,7 +59,9 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
   return (
     <section className="movies">
       <SearchForm onFilter={onFilter} storedFind={storedFind} storedCheck={storedCheck}/>
-      <MoviesCardList films={displayedMovies} isLoading={isLoading} handleCardLike={handleCardLike} likedMovies={likedMovies}/>
+      {error && <span>error</span>}
+      <MoviesCardList films={displayedMovies} isLoading={isLoading} handleCardLike={handleCardLike}
+                      likedMovies={likedMovies}/>
       <div className="movies__another">
         {showMoreButton ? <button className="movies__button" onClick={showMoreFilms} type="button">Еще</button> : ''}
       </div>

@@ -3,12 +3,13 @@ import { CurrentUserContext } from '../../context/CurrentUserContext';
 import React, {useCallback, useState} from "react";
 import {Link} from "react-router-dom";
 
-function Profile({onLogout, updateUser}) {
+function Profile({onLogout, updateUser, updateUserMessage}) {
   const currentUser = React.useContext(CurrentUserContext);
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   React.useEffect(() => {
     if (currentUser) {
@@ -34,7 +35,9 @@ function Profile({onLogout, updateUser}) {
     if (nameError || emailError) {
       return;
     }
-    updateUser({name: name, email: email});
+    setIsLoading(true);
+    updateUser({name: name, email: email})
+      .finally(() => setIsLoading(false));
   }, [name, email, nameError, emailError, updateUser])
 
   const isFormValid = !nameError && !emailError;
@@ -56,6 +59,7 @@ function Profile({onLogout, updateUser}) {
             maxLength="30"
             value={name}
             onChange={handleChangeName}
+            disabled={isLoading}
           ></input>
         </div>
         <div className="profile__line">
@@ -70,11 +74,13 @@ function Profile({onLogout, updateUser}) {
             value={email}
             onChange={handleChangeEmail}
             pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+            disabled={isLoading}
           ></input>
         </div>
         <ul className="profile__menu">
+          <li>{updateUserMessage}</li>
           <li>
-            <button className="profile__edit" type="submit" disabled={!isFormValid}>Редактировать</button>
+            <button className="profile__edit" type="submit" disabled={!isFormValid || (currentUser.name === name && currentUser.email === email)}>Редактировать</button>
           </li>
           <li>
             <Link to="/" className="profile__logout" onClick={onLogout}>Выйти из аккаунта</Link>

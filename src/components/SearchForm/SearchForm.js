@@ -1,15 +1,22 @@
 import './search-form.css';
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function SearchForm({ onFilter, storedFind, storedCheck }) {
-  const [find, setFind] = React.useState(storedFind || '');
-  const [isChecked, setIsChecked] = React.useState(storedCheck || false);
+  const [find, setFind] = useState(storedFind || '');
+  const [isChecked, setIsChecked] = useState(storedCheck || false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     storedFind !== undefined && setFind(storedFind);
     storedCheck !== undefined && setIsChecked(storedCheck);
   }, [storedFind, storedCheck]);
+
+
+//  useEffect(() => {
+//    if (find !== '') {
+//      onFilter(find, isChecked);
+//    }
+//  }, [isChecked]);
 
   function handleChangeMovie(e) {
     const newFind = e.target.value;

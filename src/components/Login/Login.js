@@ -2,11 +2,18 @@ import './login.css';
 import React, { useCallback, useState } from "react";
 import {Link} from "react-router-dom";
 
-function Login({onLogin, loginError}) {
+function Login({onLogin, loginError, resetLoginError}) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    return () => {
+      resetLoginError();
+    };
+  }, [resetLoginError]);
 
   const handleChangeEmail = useCallback(e => {
     setEmail(e.target.value);
@@ -25,10 +32,12 @@ function Login({onLogin, loginError}) {
     if (emailError || passwordError) {
       return;
     }
-    onLogin(email, password);
+    setIsLoading(true);
+    onLogin(email, password)
+      .finally(() => setIsLoading(false));
   }, [email, password, emailError, passwordError, onLogin])
 
-  const isFormValid = !emailError && !passwordError;
+  const isFormValid = !emailError && !passwordError && email && password;
 
   return (
     <div className="login">
@@ -46,6 +55,7 @@ function Login({onLogin, loginError}) {
           value={email}
           onChange={handleChangeEmail}
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          disabled={isLoading}
         />
         <p className="login__error">{emailError}</p>
         <label className="login__label" htmlFor="loginPassword">Пароль</label>
@@ -60,6 +70,7 @@ function Login({onLogin, loginError}) {
           maxLength="15"
           value={password}
           onChange={handleChangePassword}
+          disabled={isLoading}
         />
         <p className="login__error">{passwordError}</p>
         <p className="login__error login__submit-error">{loginError}</p>

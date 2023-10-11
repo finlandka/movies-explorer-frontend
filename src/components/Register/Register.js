@@ -2,13 +2,20 @@ import './register.css';
 import React, { useCallback, useState } from "react";
 import {Link} from "react-router-dom";
 
-function Register({onRegister, registerError}) {
+function Register({onRegister, registerError, resetRegisterError}) {
   const [name, setName] = React.useState('');
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [nameError, setNameError] = useState('');
   const [emailError, setEmailError] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    return () => {
+      resetRegisterError();
+    };
+  }, [resetRegisterError]);
 
   const handleChangeName = useCallback(e => {
     setName(e.target.value);
@@ -33,10 +40,12 @@ function Register({onRegister, registerError}) {
     if (nameError || emailError || passwordError) {
       return;
     }
-    onRegister(name, email, password);
+    setIsLoading(true);
+    onRegister(name, email, password)
+      .finally(() => setIsLoading(false));
   }, [name, email, password, nameError, emailError, passwordError, onRegister])
 
-  const isFormValid = !nameError && !emailError && !passwordError;
+  const isFormValid = name && email && password && !nameError && !emailError && !passwordError;
 
   return (
     <div className="register">
@@ -55,6 +64,7 @@ function Register({onRegister, registerError}) {
           maxLength="30"
           value={name}
           onChange={handleChangeName}
+          disabled={isLoading}
         />
         <p className="register__error">{nameError}</p>
         <label className="register__label" htmlFor="registerEmail">E-mail</label>
@@ -68,6 +78,7 @@ function Register({onRegister, registerError}) {
           value={email}
           onChange={handleChangeEmail}
           pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          disabled={isLoading}
         />
         <p className="register__error">{emailError}</p>
         <label className="register__label" htmlFor="registerPassword">Пароль</label>

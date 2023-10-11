@@ -10,6 +10,10 @@ import {CurrentUserContext} from '../../context/CurrentUserContext';
 import {LoggedInContext} from '../../context/LoggedInContext';
 
 import ProtectedRouteElement from '../ProtectedRoute/ProtectedRoute';
+import ProtectedAuthRouteElement from '../ProtectedAuthRoute/ProtectedAuthRoute';
+
+import {ERROR_MESSAGE} from "../../utils/constants";
+
 import Header from '../Header/Header';
 import Main from '../Main/Main';
 import Movies from '../Movies/Movies';
@@ -36,11 +40,21 @@ function App() {
   const [displayedSaveMovies, setDisplayedSaveMovies] = useState([]);
   const [saveMovies, setSaveMovies] = useState([]);
   const [likedMovies, setLikedMovies] = useState(new Set());
-  const [likedMoviesIds, setLikedMoviesIds] = useState({ });
+  const [likedMoviesIds, setLikedMoviesIds] = useState({});
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
   const [storedMovies, setStoredMovies] = useState([]);
   const history = useNavigate();
+  const [updateUserMessage, setUpdateUserMessage] = useState('');
+  const [error, setError] = useState(null);
+
+  const resetRegisterError = React.useCallback(() => {
+    setRegisterError('');
+  }, []);
+
+  const resetLoginError = React.useCallback(() => {
+    setLoginError('');
+  }, []);
 
   useEffect(() => {
     if (localStorage.getItem("token")) {
@@ -54,8 +68,8 @@ function App() {
           }
           setLoading(false);
         })
-        .catch((err) => {
-          console.log(err);
+        .catch(() => {
+          setError(ERROR_MESSAGE);
           setLoading(false);
         });
     } else {
@@ -90,7 +104,7 @@ function App() {
   }
 
   function onRegister(name, email, password) {
-    mainApi.register(name, email, password)
+    return mainApi.register(name, email, password)
       .then(() => {
         onLogin(email, password);
       })
@@ -100,7 +114,7 @@ function App() {
   }
 
   function onLogin(email, password) {
-    mainApi.authorization(email, password)
+    return mainApi.authorization(email, password)
       .then((result) => {
         setLoggedIn(true);
         localStorage.setItem('token', result.token);
@@ -118,16 +132,17 @@ function App() {
         setCurrentUser(result);
         localStorage.setItem('currentUser', JSON.stringify(result));
       })
-      .catch(console.error);
+      .catch(() => setError(ERROR_MESSAGE));
   }
 
   function updateUser(data) {
-    mainApi.setUserInfo(data)
+    return mainApi.setUserInfo(data)
       .then((result) => {
         setCurrentUser(result);
         localStorage.setItem('currentUser', JSON.stringify(result));
+        setUpdateUserMessage('Данные успешно обновлены');
       })
-      .catch(console.error);
+      .catch((error) => setUpdateUserMessage(error));
   }
 
   function onLogout() {
@@ -159,7 +174,7 @@ function App() {
           })
           getSaveMovies()
         })
-        .catch(console.error);
+        .catch(() => setError(ERROR_MESSAGE));
     } else {
       mainApi
         .addMovie(movie)
@@ -178,7 +193,7 @@ function App() {
             return newLikedMoviesIds
           })
         })
-        .catch(console.error);
+        .catch(() => setError(ERROR_MESSAGE));
     }
   };
 
@@ -190,14 +205,14 @@ function App() {
         setSaveMovies(result);
         setDisplayedSaveMovies(result);
       })
-      .catch(console.error)
+      .catch(() => setError(ERROR_MESSAGE))
   }, [])
 
   function findSavedMovies(find, check) {
     setDisplayedSaveMovies(filter(saveMovies, find, check));
   }
 
-  function findMovies(find, check) {
+  const findMovies = useCallback((find, check) => {
     setIsLoading(true);
     moviesApi.getMovies()
       .then(result => {
@@ -206,12 +221,12 @@ function App() {
         setIsLoading(false);
         localStorage.setItem('allMovies', JSON.stringify(filteredMovies));
       })
-      .catch(console.error);
-  }
+      .catch(() => setError(ERROR_MESSAGE));
+  }, [])
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
-      <LoggedInContext.Provider value={{loggedIn, loading}}>
+      <LoggedInContext.Provider value={{ loggedIn, loading }}>
         <div className="page">
 
           {isMyRoutes(myRoutesHeader) && (
@@ -225,8 +240,11 @@ function App() {
           <main>
             <Routes>
               <Route path="/" element={<Main/>}/>
-              <Route path="/signin" element={<Login onLogin={onLogin} loginError={loginError}/>}/>
-              <Route path="/signup" element={<Register onRegister={onRegister} registerError={registerError}/>}/>
+              <Route path="/signin"
+                     element={<ProtectedAuthRouteElement element={<Login onLogin={onLogin} loginError={loginError} resetLoginError={resetLoginError}/>}
+                       />}/>
+              <Route path="/signup" element={<ProtectedAuthRouteElement element={<Register onRegister={onRegister} registerError={registerError}
+                                                       resetRegisterError={resetRegisterError}/>}/>}/>
               <Route path="/movies" element={<ProtectedRouteElement element={
                 <Movies
                   films={allMovies}
@@ -237,7 +255,7 @@ function App() {
                   storedFind={storedFind}
                   storedCheck={storedCheck}
                   storedMovies={storedMovies}
-
+                  error={error}
                 />}/>}/>
               <Route path="/saved-movies" element={<ProtectedRouteElement element={
                 <SavedMovies
@@ -247,9 +265,11 @@ function App() {
                   handleCardLike={handleCardLike}
                   likedMovies={likedMovies}
                   getSaveMovies={getSaveMovies}
+                  error={error}
                 />}/>}/>
               <Route path="/profile" element={<ProtectedRouteElement
-                element={<Profile onLogout={onLogout} updateUser={updateUser}/>}/>}/>
+                element={<Profile onLogout={onLogout} updateUser={updateUser}
+                                  updateUserMessage={updateUserMessage}/>}/>}/>
               <Route path="*" element={<NotFoundPage/>}/>
             </Routes>
           </main>
