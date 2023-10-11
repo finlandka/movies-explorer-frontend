@@ -9,11 +9,12 @@ function MoviesCardList({ films, isLoading, handleCardLike, likedMovies }) {
     return <MoviesCard key={film.id || film.movieId} film={film} handleCardLike={handleCardLike}
                        likedMovies={likedMovies}/>
   });
+  const isFind = localStorage.getItem('find')
   return (
     <>
       {isLoading ? <Preloader/> :
         <section>
-          {films.length === 0 ? 'Ничего не найдено' :
+          {films.length === 0 ? (isFind ? 'Ничего не найдено' : '') :
             <ul className="movies-card-list">
               {filmElement}
             </ul>}

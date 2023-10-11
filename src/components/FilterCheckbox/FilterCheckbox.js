@@ -1,10 +1,11 @@
 import './filter-checkbox.css';
 
-function FilterCheckbox({ onCheck, storedCheck }) {
+function FilterCheckbox({ onCheck, storedCheck, toggleCheck }) {
   function handleChange(e) {
     const newCheck = e.target.checked;
     onCheck(newCheck);
     storedCheck !== undefined && localStorage.setItem('check', String(newCheck));
+    toggleCheck(newCheck)
   }
 
   return (

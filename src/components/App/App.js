@@ -148,6 +148,9 @@ function App() {
   function onLogout() {
     setLoggedIn(false);
     setCurrentUser({});
+    setStoredFind("");
+    setAllMovies([]);
+    setStoredMovies([])
     localStorage.clear();
   }
 

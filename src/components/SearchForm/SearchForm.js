@@ -29,6 +29,10 @@ function SearchForm({ onFilter, storedFind, storedCheck }) {
     onFilter(find, isChecked);
   }
 
+  function toggleCheck(isChecked) {
+    onFilter(find, isChecked);
+  }
+
   return (
     <section className="search-form">
 
@@ -46,7 +50,7 @@ function SearchForm({ onFilter, storedFind, storedCheck }) {
           />
           <button className="search-form__button" type="submit"></button>
         </div>
-        <FilterCheckbox onCheck={setIsChecked} storedCheck={isChecked}/>
+        <FilterCheckbox onCheck={setIsChecked} storedCheck={isChecked} toggleCheck={toggleCheck} />
       </form>
 
     </section>
