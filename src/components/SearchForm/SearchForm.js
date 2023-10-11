@@ -11,13 +11,6 @@ function SearchForm({ onFilter, storedFind, storedCheck }) {
     storedCheck !== undefined && setIsChecked(storedCheck);
   }, [storedFind, storedCheck]);
 
-
-//  useEffect(() => {
-//    if (find !== '') {
-//      onFilter(find, isChecked);
-//    }
-//  }, [isChecked]);
-
   function handleChangeMovie(e) {
     const newFind = e.target.value;
     setFind(newFind);

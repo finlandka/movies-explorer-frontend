@@ -1,6 +1,7 @@
 import './movies-card-list.css';
 import Preloader from "../Preloader/Preloader";
 import MoviesCard from "../MoviesCard/MoviesCard";
+import {NOT_FOUND_RESULT} from "../../utils/constants";
 import React from "react";
 
 
@@ -14,7 +15,7 @@ function MoviesCardList({ films, isLoading, handleCardLike, likedMovies }) {
     <>
       {isLoading ? <Preloader/> :
         <section>
-          {films.length === 0 ? (isFind ? 'Ничего не найдено' : '') :
+          {films.length === 0 ? (isFind ? NOT_FOUND_RESULT : '') :
             <ul className="movies-card-list">
               {filmElement}
             </ul>}
