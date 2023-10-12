@@ -77,7 +77,7 @@ function Register({onRegister, registerError, resetRegisterError}) {
           required
           value={email}
           onChange={handleChangeEmail}
-          pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+          pattern="[\w-]+@[\w-]*\.[a-z]*"
           disabled={isLoading}
         />
         <p className="register__error">{emailError}</p>
