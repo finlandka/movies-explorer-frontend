@@ -150,7 +150,8 @@ function App() {
     setCurrentUser({});
     setStoredFind("");
     setAllMovies([]);
-    setStoredMovies([])
+    setStoredMovies([]);
+    setStoredCheck(false);
     localStorage.clear();
   }
 
