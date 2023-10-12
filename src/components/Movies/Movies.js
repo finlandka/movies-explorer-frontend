@@ -2,6 +2,16 @@ import './movies.css';
 
 import SearchForm from "../SearchForm/SearchForm";
 import MoviesCardList from "../MoviesCardList/MoviesCardList";
+import {
+  MORE_TWO_ROW,
+  MORE_ONE_ROW,
+  CARDS_PER_ROW_FOUR,
+  CARDS_PER_ROW_TWO,
+  CARDS_PER_ROW_ONE,
+  ROW_FOUR,
+  ROW_FIVE,
+  YET
+} from "../../utils/constants";
 import React, {useEffect, useState} from "react";
 
 function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, storedFind, storedCheck, storedMovies, error }) {
@@ -14,17 +24,17 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
   useEffect(() => {
     const handleResize = () => {
       if (window.innerWidth < 768) {
-        setCardsPerRow(1);
-        setCardsRow(5);
-        setCardsRowMore(2);
+        setCardsPerRow(CARDS_PER_ROW_ONE);
+        setCardsRow(ROW_FIVE);
+        setCardsRowMore(MORE_TWO_ROW);
       } else if (window.innerWidth < 1280) {
-        setCardsPerRow(2);
-        setCardsRow(4);
-        setCardsRowMore(1);
+        setCardsPerRow(CARDS_PER_ROW_TWO);
+        setCardsRow(ROW_FOUR);
+        setCardsRowMore(MORE_ONE_ROW);
       } else {
-        setCardsPerRow(4);
-        setCardsRow(4);
-        setCardsRowMore(1);
+        setCardsPerRow(CARDS_PER_ROW_FOUR);
+        setCardsRow(ROW_FOUR);
+        setCardsRowMore(MORE_ONE_ROW);
       }
     };
 
@@ -63,7 +73,7 @@ function Movies({ films, isLoading, onFilter, handleCardLike, likedMovies, store
       <MoviesCardList films={displayedMovies} isLoading={isLoading} handleCardLike={handleCardLike}
                       likedMovies={likedMovies}/>
       <div className="movies__another">
-        {showMoreButton ? <button className="movies__button" onClick={showMoreFilms} type="button">Еще</button> : ''}
+        {showMoreButton ? <button className="movies__button" onClick={showMoreFilms} type="button">{YET}</button> : ''}
       </div>
     </section>
   );
