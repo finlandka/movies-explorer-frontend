@@ -27,6 +27,7 @@ import SavedMovies from '../SavedMovies/Saved-movies';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
+  const history = useNavigate();
   const myRoutesHeader = ['/', '/movies', '/saved-movies', '/profile'];
   const myRoutesFooter = ['/', '/movies', '/saved-movies'];
   const [currentUser, setCurrentUser] = useState({});
@@ -59,6 +60,16 @@ function App() {
     setDisplayedSaveMovies(filter(saveMovies, find, check));
   }, [saveMovies]);
 
+  const getSaveMovies = useCallback(() => {
+    mainApi.getMovies()
+      .then(result => {
+        setLikedMovies(new Set(result.map(movie => movie.movieId)));
+        setSaveMovies(result);
+        setDisplayedSaveMovies(result);
+      })
+      .catch(() => setError(ERROR_MESSAGE))
+  }, [])
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
@@ -81,22 +92,31 @@ function App() {
   }, []);
 
   useEffect(() => {
-    const isMoviesPage = location.pathname === '/movies';
+    const savedUser = JSON.parse(localStorage.getItem("currentUser"));
+    if(savedUser && !saveMovies.length) {
+      mainApi.getMovies()
+        .then(result => {
+          setLikedMovies(new Set(result.map(movie => movie.movieId)));
+          setSaveMovies(result);
+          setDisplayedSaveMovies(result);
+        })
+        .catch(() => setError(ERROR_MESSAGE))
+    }
+  }, [saveMovies, currentUser])
+
+  useEffect(() => {
     const find = localStorage.getItem('find');
-    const check = localStorage.getItem(`check-${location.pathname.substring(1)}`);
+    const check = localStorage.getItem('check');
     const movies = localStorage.getItem('allMovies');
     const storedLikedMovies = localStorage.getItem('likedMovies');
     const storedLikedMoviesIds = localStorage.getItem('likedMoviesIds');
-
+    setDisplayedSaveMovies([])
     if (find) setStoredFind(find);
-    if (check) {
-      setStoredCheck(check === 'true');
-      findSavedMovies(isMoviesPage ? find : '', check === 'true');
-    }
+    if (check) setStoredCheck(check === 'true');
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
     if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
-  }, [allMovies, location.pathname, findSavedMovies]);
+  }, [history, allMovies]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
@@ -214,16 +234,6 @@ function App() {
   };
 
 
-  const getSaveMovies = useCallback(() => {
-    mainApi.getMovies()
-      .then(result => {
-        setLikedMovies(new Set(result.map(movie => movie.movieId)));
-        setSaveMovies(result);
-        setDisplayedSaveMovies(result);
-      })
-      .catch(() => setError(ERROR_MESSAGE))
-  }, [])
-
   const findMovies = useCallback((find, check) => {
     setIsLoading(true);
     moviesApi.getMovies()
@@ -276,7 +286,6 @@ function App() {
                   onFilter={findSavedMovies}
                   handleCardLike={handleCardLike}
                   likedMovies={likedMovies}
-                  storedCheck={storedCheck}
                   getSaveMovies={getSaveMovies}
                   error={error}
                 />}/>}/>
