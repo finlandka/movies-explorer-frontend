@@ -154,13 +154,18 @@ function App() {
   }
 
   function onLogout() {
+    // Cleanup
     setLoggedIn(false);
     setCurrentUser({});
     setStoredFind("");
     setAllMovies([]);
     setStoredMovies([]);
     setStoredCheck(false);
+    setSaveMovies([]);
+    setLikedMovies(new Set())
+    setLikedMoviesIds({})
     localStorage.clear();
+
   }
 
   const handleCardLike = (movie) => {
