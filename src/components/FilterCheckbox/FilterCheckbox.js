@@ -1,11 +1,9 @@
 import './filter-checkbox.css';
-import {useLocation} from "react-router-dom";
 function FilterCheckbox({ onCheck, storedCheck, toggleCheck }) {
-  const location = useLocation();
   function handleChange(e) {
     const newCheck = e.target.checked;
     onCheck(newCheck);
-    storedCheck !== undefined && localStorage.setItem(`check-${location.pathname.substring(1)}`, String(newCheck));
+    storedCheck !== undefined && localStorage.setItem('check', String(newCheck));
     toggleCheck(newCheck)
   }
 
