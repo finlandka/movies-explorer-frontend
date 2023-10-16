@@ -27,7 +27,6 @@ import SavedMovies from '../SavedMovies/Saved-movies';
 function App() {
   const location = useLocation();
   const navigate = useNavigate();
-  const history = useNavigate();
   const myRoutesHeader = ['/', '/movies', '/saved-movies', '/profile'];
   const myRoutesFooter = ['/', '/movies', '/saved-movies'];
   const [currentUser, setCurrentUser] = useState({});
@@ -99,24 +98,35 @@ function App() {
           setLikedMovies(new Set(result.map(movie => movie.movieId)));
           setSaveMovies(result);
           setDisplayedSaveMovies(result);
+          result.forEach((movie) => {
+            setLikedMoviesIds((prevIds) => {
+              const newLikedMoviesIds = prevIds;
+              newLikedMoviesIds[movie.movieId] = movie._id
+              localStorage.setItem('likedMoviesIds', JSON.stringify(newLikedMoviesIds));
+              return newLikedMoviesIds
+            })
+          })
         })
         .catch(() => setError(ERROR_MESSAGE))
     }
   }, [saveMovies, currentUser])
 
   useEffect(() => {
-    const find = localStorage.getItem('find');
-    const check = localStorage.getItem('check');
+    const isMoviesPage = location.pathname === '/movies';
+    const find = localStorage.getItem('find') || '';
+    const check = localStorage.getItem('check') || 'false';
     const movies = localStorage.getItem('allMovies');
     const storedLikedMovies = localStorage.getItem('likedMovies');
     const storedLikedMoviesIds = localStorage.getItem('likedMoviesIds');
-    setDisplayedSaveMovies([])
     if (find) setStoredFind(find);
-    if (check) setStoredCheck(check === 'true');
+    if (check) {
+      isMoviesPage && setStoredCheck(check === 'true');
+      isMoviesPage ? findSavedMovies(find, check === 'true') : findSavedMovies('', false);
+    }
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
     if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
-  }, [history, allMovies]);
+  }, [allMovies, location.pathname, findSavedMovies]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
