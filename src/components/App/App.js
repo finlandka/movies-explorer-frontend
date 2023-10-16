@@ -56,6 +56,10 @@ function App() {
     setLoginError('');
   }, []);
 
+  const findSavedMovies = useCallback((find, check) => {
+    setDisplayedSaveMovies(filter(saveMovies, find, check));
+  }, [saveMovies]);
+
   useEffect(() => {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
@@ -78,18 +82,22 @@ function App() {
   }, []);
 
   useEffect(() => {
+    const isMoviesPage = location.pathname === '/movies';
     const find = localStorage.getItem('find');
-    const check = localStorage.getItem('check');
+    const check = localStorage.getItem(`check-${location.pathname.substring(1)}`);
     const movies = localStorage.getItem('allMovies');
     const storedLikedMovies = localStorage.getItem('likedMovies');
     const storedLikedMoviesIds = localStorage.getItem('likedMoviesIds');
 
     if (find) setStoredFind(find);
-    if (check) setStoredCheck(check === 'true');
+    if (check) {
+      setStoredCheck(check === 'true');
+      findSavedMovies(isMoviesPage ? find : '', check === 'true');
+    }
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
     if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
-  }, [history, allMovies]);
+  }, [history, allMovies, location.pathname, findSavedMovies]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
@@ -212,10 +220,6 @@ function App() {
       .catch(() => setError(ERROR_MESSAGE))
   }, [])
 
-  function findSavedMovies(find, check) {
-    setDisplayedSaveMovies(filter(saveMovies, find, check));
-  }
-
   const findMovies = useCallback((find, check) => {
     setIsLoading(true);
     moviesApi.getMovies()
@@ -268,6 +272,7 @@ function App() {
                   onFilter={findSavedMovies}
                   handleCardLike={handleCardLike}
                   likedMovies={likedMovies}
+                  storedCheck={storedCheck}
                   getSaveMovies={getSaveMovies}
                   error={error}
                 />}/>}/>
