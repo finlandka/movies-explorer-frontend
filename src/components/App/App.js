@@ -44,7 +44,6 @@ function App() {
   const [storedFind, setStoredFind] = useState('');
   const [storedCheck, setStoredCheck] = useState(false);
   const [storedMovies, setStoredMovies] = useState([]);
-  const history = useNavigate();
   const [updateUserMessage, setUpdateUserMessage] = useState('');
   const [error, setError] = useState(null);
 
@@ -97,7 +96,7 @@ function App() {
     if (movies) setStoredMovies(JSON.parse(movies));
     if (storedLikedMovies) setLikedMovies(new Set(JSON.parse(storedLikedMovies)));
     if (storedLikedMoviesIds) setLikedMoviesIds(JSON.parse(storedLikedMoviesIds));
-  }, [history, allMovies, location.pathname, findSavedMovies]);
+  }, [allMovies, location.pathname, findSavedMovies]);
 
   function isMyRoutes(myRoutes) {
     return myRoutes.includes(location.pathname);
