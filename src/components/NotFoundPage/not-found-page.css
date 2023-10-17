@@ -56,7 +56,8 @@
 }
 
 .not-found-page__link {
-  text-decoration: none;
+  background: none;
+  border: none;
   color: #3456f3;
   font-size: 14px;
   line-height: 16.94px;
@@ -75,4 +76,5 @@
 
 .not-found-page__link:hover {
   opacity: .6;
+  cursor: pointer;
 }

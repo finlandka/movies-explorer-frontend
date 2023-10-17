@@ -1,12 +1,49 @@
 import './login.css';
+import React, { useCallback, useState } from "react";
 import {Link} from "react-router-dom";
 
-function Login() {
+function Login({onLogin, loginError, resetLoginError}) {
+  const [email, setEmail] = React.useState('');
+  const [password, setPassword] = React.useState('');
+  const [emailError, setEmailError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+
+  React.useEffect(() => {
+    return () => {
+      resetLoginError();
+    };
+  }, [resetLoginError]);
+
+  const handleChangeEmail = useCallback(e => {
+    setEmail(e.target.value);
+    const isValid = e.target.validity.valid;
+    setEmailError(isValid ? '' : e.target.validationMessage);
+  }, [])
+
+  const handleChangePassword = useCallback(e => {
+    setPassword(e.target.value);
+    const isValid = e.target.validity.valid;
+    setPasswordError(isValid ? '' : e.target.validationMessage);
+  }, [])
+
+  const handleSubmit = useCallback(e => {
+    e.preventDefault();
+    if (emailError || passwordError) {
+      return;
+    }
+    setIsLoading(true);
+    onLogin(email, password)
+      .finally(() => setIsLoading(false));
+  }, [email, password, emailError, passwordError, onLogin])
+
+  const isFormValid = !emailError && !passwordError && email && password;
+
   return (
     <div className="login">
       <Link className="login__logo" to="/" title="Учебный проект"></Link>
       <h1 className="login__title">Рады видеть!</h1>
-      <form className="login__form">
+      <form className="login__form" onSubmit={handleSubmit}>
         <label className="login__label" htmlFor="loginEmail">E-mail</label>
         <input
           id="loginEmail"
@@ -15,7 +52,12 @@ function Login() {
           name="email"
           placeholder="Email"
           required
+          value={email}
+          onChange={handleChangeEmail}
+          pattern="[\w-]+@[\w-]*\.[a-z]*"
+          disabled={isLoading}
         />
+        <p className="login__error">{emailError}</p>
         <label className="login__label" htmlFor="loginPassword">Пароль</label>
         <input
           id="loginPassword"
@@ -26,9 +68,13 @@ function Login() {
           required
           minLength="5"
           maxLength="15"
+          value={password}
+          onChange={handleChangePassword}
+          disabled={isLoading}
         />
-        <div className="login__error">Что-то пошло не так...</div>
-        <button className="login__button" type="submit">
+        <p className="login__error">{passwordError}</p>
+        <p className="login__error login__submit-error">{loginError}</p>
+        <button className="login__button" type="submit" disabled={!isFormValid}>
           Войти
         </button>
         <p className="login__text">Ещё не зарегистрированы?&nbsp;
