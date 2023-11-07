@@ -7,6 +7,7 @@
 * HTML/CSS
 * JavaScript
 * React.js
+* Node v.16.20.2 и выше
 
 ## Ссылки на проект
 
